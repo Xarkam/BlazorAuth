@@ -1,0 +1,58 @@
+﻿@page "/register"
+@using BlazorAuth.Shared
+@using BlazorAuth.Client.Services.AuthService
+
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+@inject IAuthService AuthService
+
+<title>Register</title>
+
+<EditForm Model="user" OnValidSubmit="HandleRegistration">
+    <DataAnnotationsValidator/>
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="col-md-4 p-5 shadow-sm border rounded-3">
+            <h2 class="text-center mb-4 text-primary">Register Form</h2>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <InputText type="email" @bind-Value="user.Email" class="form-control border border-primary" id="email" aria-describedby="email"/>
+                <ValidationMessage For="@(() => user.Email)"/>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <InputText type="password" @bind-Value="user.Password" class="form-control border border-primary" id="password" aria-describedby="password"/>
+                <ValidationMessage For="@(() => user.Password)"/>
+            </div>
+            <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Confirm password</label>
+                <InputText type="password" @bind-Value="user.ConfirmPassword" class="form-control border border-primary" id="confirmPassword" aria-describedby="confirmPassword"/>
+                <ValidationMessage For="@(() => user.ConfirmPassword)"/>
+            </div>
+            <div class="d-grid">
+                <button class="btn btn-primary" type="submit">Register</button>
+            </div>
+            <div class="mt-3">
+                <p class="mb-0 text-center">You have an account? <a href="login" class="text-primary fw-bold">Sign In</a></p>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+<div class="text-danger">
+    <span>@errorMessage</span>
+</div>
+
+@code {
+    UserRegister user = new();
+
+    private string message = string.Empty;
+    private string messageCssClass = string.Empty;
+    private string errorMessage = string.Empty;
+
+    async void HandleRegistration()
+    {
+        var result = await AuthService.Register(user);
+        message = result.Message;
+        messageCssClass = result.Success ? "text-success" : "text-danger";
+    }
+}

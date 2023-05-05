@@ -1,0 +1,51 @@
+﻿@namespace BlazorAuth.Shared
+
+@inject ILocalStorageService LocalStorage
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+
+<AuthorizeView>
+    <Authorized>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="profile">
+                <span class="oi oi-person" aria-hidden="true"></span> Profile
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="#" @onclick="Logout">
+                <span class="oi oi-account-logout" aria-hidden="true"></span> Logout
+            </NavLink>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="@url" @onclick="SetCallBackUrl">
+                <span class="oi oi-account-login" aria-hidden="true"></span> Login
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="register">
+                <span class="oi oi-people" aria-hidden="true" Match="NavLinkMatch.All"></span> Register
+            </NavLink>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+    private const string _url = "login?returnUrl=";
+    private string url { get; set; } = _url;
+
+    private async Task Logout()
+    {
+        await LocalStorage.RemoveItemAsync("authToken");
+        await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        NavigationManager.NavigateTo("");
+    }
+
+    private void SetCallBackUrl()
+    {
+        url = _url + NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+    }
+
+}
