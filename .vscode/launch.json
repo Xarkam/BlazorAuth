@@ -1,0 +1,72 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        //Launch and Debug Standalone Blazor WebAssembly App
+        {
+            "name": "Launch and Debug Standalone Blazor WebAssembly App",
+            "type": "blazorwasm",
+            "request": "launch",
+            "timeout": 30000,
+            "cwd": "${workspaceFolder}/BlazorAuth/Server",
+            "url": "http://localhost:5076", // Tell launch where to find site,
+            "browser": "edge",
+            "webRoot": "${workspaceFolder}",
+        },
+        // vscode-edge-devtools.debug
+        {
+            "type": "vscode-edge-devtools.debug",
+            "request": "launch",
+            "name": "Launch Microsoft Edge and open the Edge DevTools",
+            "url": "http://localhost:5076",
+            "webRoot": "${workspaceFolder}"
+        },
+        // Watch Client
+        {
+            "name": "Watch Client",
+            "type": "coreclr",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/BlazorAuth/Client",
+            "program": "dotnet",
+            "args": [
+                "watch",
+                "--project",
+                ".",
+                "--verbose" // Let's us confirm browser connects with hot reload capabilities
+            ],
+            "preLaunchTask": "Client Build" // Ensure we don't watch an unbuilt site
+        },
+        // Watch Server
+        {
+            "name": "Watch Server",
+            "type": "coreclr",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/BlazorAuth/Server",
+            "program": "dotnet",
+            "args": [
+                "watch",
+                "--project",
+                ".",
+                "--verbose" // Let's us confirm browser connects with hot reload capabilities
+            ],
+            "preLaunchTask": "Server Build" // Ensure we don't watch an unbuilt site
+        },
+        // Attach
+        {
+            "name": "Attach",
+            "type": "blazorwasm",
+            "request": "attach",
+            "cwd": "${workspaceFolder}",
+            "url": "http://localhost:5076",  // Tell launch where to find site
+            "browser": "edge",
+            //"timeout": 120000, // Allows time for the site to launch
+            "webRoot": "${workspaceFolder}",
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Debug with Hot Reload",
+            "stopAll": true,
+            "configurations": [ "Watch Server", "Watch Client"]
+        }
+    ]
+}

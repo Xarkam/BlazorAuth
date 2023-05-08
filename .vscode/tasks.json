@@ -1,0 +1,126 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        // Build Server
+        {
+            "label": "Server Build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/BlazorAuth/Server/BlazorAuth.Server.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        // Publish Server
+        {
+            "label": "Publish Server",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/BlazorAuth/Server/BlazorAuth.Server.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        // Watch Server
+        {
+            "label": "Watch Server",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "--project",
+                "${workspaceFolder}/BlazorAuth/Server/BlazorAuth.Server.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            }
+        },
+        // Build Client
+        {
+            "label": "Client Build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/BlazorAuth/Client/BlazorAuth.Client.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        // Publish Client
+        {
+            "label": "Publish Client",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/BlazorAuth/Client/BlazorAuth.Client.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        // Watch Client
+        {
+            "label": "Watch Client",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "--project",
+                "${workspaceFolder}/BlazorAuth/Client/BlazorAuth.Client.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            }
+        },
+        // Build Sequence
+        {
+            "label": "Build",
+            "dependsOrder": "sequence",
+            "dependsOn": ["Server Build", "Client Build"],
+            "problemMatcher": "$msCompile"
+        },
+        // Publish Sequence
+        {
+            "label": "Publish",
+            "dependsOrder": "sequence",
+            "dependsOn": ["Publish Server", "Publish Client"],
+            "problemMatcher": "$msCompile"
+        },
+        // Watch Sequence
+        {
+            "label": "Watch",
+            "dependsOrder": "parallel",
+            "dependsOn": ["Watch Server", "Watch Client"],
+            "problemMatcher": "$msCompile",
+        },
+    ]
+}
