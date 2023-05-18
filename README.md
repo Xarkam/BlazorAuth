@@ -25,4 +25,4 @@ Secret key for password encryption is in `appsettings.json`
     "Token": "my top secret key"
   },
 ```
-Juste replace `my top secret key` bye your secret key.
+Juste replace `my top secret key` with your secret key.
